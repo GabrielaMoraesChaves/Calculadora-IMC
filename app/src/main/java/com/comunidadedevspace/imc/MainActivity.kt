@@ -1,9 +1,12 @@
 package com.comunidadedevspace.imc
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,13 +20,36 @@ class MainActivity : AppCompatActivity() {
         val btnCalcular = findViewById<Button>(R.id.btn_calcular)
 
         btnCalcular.setOnClickListener{
-            val peso = editPeso.text
-            println("Você Clicou!" + peso)
 
-            val altura = editAltura.text
-            println("Você Clicou!" + altura)
-        }
 
+            val pesoStr: String = editPeso.text.toString()
+            val alturaStr: String = editAltura.text.toString()
+
+            if (pesoStr == "" || alturaStr == "") {
+
+                Snackbar.make(
+                    editPeso,
+                    "Preencha Todos os Campos",
+                    Snackbar.LENGTH_SHORT
+                )
+                    .show()
+
+            }else{
+
+            val peso = pesoStr.toFloat()
+            val altura = alturaStr.toFloat()
+
+            val alturaQ2 = altura * altura
+            val resultado = peso / alturaQ2
+
+                val intent = Intent(this, ResultActivity2::class.java)
+                intent.putExtra(KEY_RESULT_IMC,resultado)
+                startActivity(intent)
+
+            println("Acao do botao" + resultado)
+
+            }
         }
 
     }
+}
